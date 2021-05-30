@@ -1,0 +1,7 @@
+ public static boolean checkWebAddressValidity(String webAddress) {
+        //Implement your code here and change the return value accordingly
+        String regex="(http|https)://(www.){0,1}[a-z0-9]+.(com|org|net)";
+        if(webAddress.matches(regex))
+        return true;
+        return false; 
+    }
