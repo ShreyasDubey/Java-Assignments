@@ -1,0 +1,64 @@
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+
+class Student {
+	
+    public static Map<String, Double> findMaxMinScorers(Map<String, Double> studentMarks) {
+		//Implement your logic here and change the return statement accordingly
+    	double minmarks=1000.0;
+    	double maxmarks=0.0;
+    	String minstring=null;
+    	String maxstring=null;
+    	
+    	for(Map.Entry<String, Double> marks:studentMarks.entrySet()) {
+    	
+    	if (marks.getValue()>maxmarks) {
+			maxmarks=marks.getValue();
+			maxstring=marks.getKey();
+		}else if(marks.getValue()<minmarks) {
+			minmarks=marks.getValue();
+			minstring=marks.getKey();
+		}else
+			continue;
+    	}
+    	
+    	Map<String, Double> MinMax=new HashMap<String, Double>();
+    	for(Map.Entry<String, Double> marks:studentMarks.entrySet()) {
+    		if (marks.getValue()==maxmarks) {
+    			MinMax.put(marks.getKey(), marks.getValue());
+    		}else
+    			continue;
+    	}
+    	
+    	for(Map.Entry<String, Double> marks:studentMarks.entrySet()) {
+    		if(marks.getValue()==minmarks) {
+    			MinMax.put(marks.getKey(), marks.getValue());
+    		}else
+    			continue;
+    		}
+	
+    	return MinMax;
+}
+}
+
+class Tester {
+
+	public static void main(String args[]) {
+		Map<String, Double> studentMarks = new HashMap<String, Double>();
+	    studentMarks.put("Lily", 90.0);
+		studentMarks.put("Robin", 68.0);
+		studentMarks.put("Marshall", 76.5);
+		studentMarks.put("Neil", 67.0);
+		studentMarks.put("Ted", 92.0);
+		
+		Map<String, Double> maxMinScorers = Student.findMaxMinScorers(studentMarks);
+		
+		System.out.println("Details of Top Scorers & Low Scorers\n====================================");
+		for (Entry<String, Double> entry : maxMinScorers.entrySet()) {
+			System.out.println(entry.getKey()+" -- "+entry.getValue());
+		}
+		
+	}
+}
