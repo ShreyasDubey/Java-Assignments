@@ -1,0 +1,31 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+	
+class Tester {
+
+    public static Map<Character, Integer> findOccurrences(String input) {
+        //Implement your logic here and change the return statement accordingly
+    	Map<Character, Integer> occur=new HashMap<Character, Integer>();
+        for(int i=0;i<input.length();i++) {
+        	if(occur.containsKey(input.charAt(i))) {
+        		occur.replace(input.charAt(i),occur.get(input.charAt(i)),occur.get(input.charAt(i))+1);
+        	}else
+        		occur.put(input.charAt(i),1);
+        }
+        return occur;
+	}
+	
+	public static void main(String args[]) {
+		
+		String input = "occurrence are always";
+		Map<Character, Integer> occurrenceMap = findOccurrences(input);
+		
+		System.out.println("Occurrences of characters\n=======================");
+		for (Entry<Character, Integer> entry : occurrenceMap.entrySet()) {
+			System.out.println(entry.getKey()+" -- "+entry.getValue());
+		}
+		
+	}
+
+}
