@@ -1,0 +1,66 @@
+import java.util.LinkedList;
+
+class Queue {
+	//Implement your logic here
+	private LinkedList<String> queue= new LinkedList<String>() ;
+	private int maxSize;
+	
+	
+	public Queue(int maxSize) {
+		this.maxSize = maxSize;
+	}
+	
+	public LinkedList<String> getQueue(){
+		return queue;
+	}
+	
+	
+	public boolean isFull() {
+		if (queue.size()==maxSize)
+			return true;
+		return false;
+	}
+	
+	public boolean isEmpty() {
+		if(queue.size()==0)
+			return true;
+		return false;
+	}
+	
+	public boolean enqueue(String data) {
+		if (!isFull()) {
+		   queue.add(data);
+		   return true;
+		}else
+			return false;
+	}
+	
+	public boolean dequeue() {
+		int i=0;
+		if (!isEmpty()) {
+		   queue.remove(i);
+		   
+		   return true;
+		}else
+			return false;
+	}
+		
+	
+}
+
+class Tester {
+
+	public static void main(String arga[]){
+		Queue queue= new Queue(5);
+		
+		queue.enqueue("Emily");
+		queue.enqueue("Lily");
+		queue.enqueue("Rachel");
+		queue.enqueue("Rose");
+		
+		queue.dequeue();
+		queue.dequeue();
+	
+		System.out.println(queue.getQueue());
+	}
+}
