@@ -1,0 +1,39 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+class Tester {
+    
+    public static Map<String, Integer> mergeMaps(Map<String, Integer> mapOne, Map<String, Integer> mapTwo){
+        //Implement your logic here and change the return statement accordingly
+    	for(Map.Entry<String, Integer> M:mapTwo.entrySet()) {
+    		if (mapOne.containsKey(M.getKey())) {
+    			String key=M.getKey()+"New";
+    			mapOne.put(key, M.getValue());
+    		}else
+    			mapOne.put(M.getKey(), M.getValue());
+    	}
+		return mapOne;
+	}
+
+	public static void main(String args[]) {
+		Map<String, Integer> mapOne = new HashMap<String, Integer>();
+		mapOne.put("Hospitals", 12);
+		mapOne.put("Colleges", 18);
+		mapOne.put("SchoolsNew", 28);
+		mapOne.put("CollegesNew", 18);
+		mapOne.put("Schools", 28);
+		mapOne.put("HospitalsNew", 12);
+		Map<String, Integer> mapTwo = new HashMap<String, Integer>();
+		mapTwo.put("Hospitals", 12);
+		mapTwo.put("Colleges", 18);
+		mapTwo.put("Schools", 28);
+		Map<String, Integer> mergedMap = mergeMaps(mapOne, mapTwo);
+
+		System.out.println("Merged Map\n===========");
+		for (Entry<String, Integer> entry : mergedMap.entrySet()) {
+			System.out.println(entry.getKey()+" -- "+entry.getValue());
+		}
+	
+	}
+}
