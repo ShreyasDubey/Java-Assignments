@@ -1,0 +1,41 @@
+import java.util.Deque;
+import java.util.ArrayDeque;
+
+class Tester {
+    
+    public static Deque<Integer> changeSmallest(Deque<Integer> inputStack) {
+		//Implement your logic here and change the return statement accordingly
+		Deque<Integer> stack=new ArrayDeque<Integer>();
+		Integer min=10000;
+		for (Integer val : inputStack) {
+			if(val<min) {
+				min=val;
+			}
+		}
+		while(!inputStack.isEmpty()) {
+		if (inputStack.contains(min)) {
+			stack.push(min);
+			inputStack.remove(min);
+		}
+		else 
+			stack.push(inputStack.pollLast());    
+		}
+		return stack;
+    }
+		public static void main(String[] args) {
+		
+		Deque<Integer> inputStack = new ArrayDeque<Integer>();
+		inputStack.push(11);
+		inputStack.push(14);
+		inputStack.push(9);
+		inputStack.push(11);
+		inputStack.push(25);
+		inputStack.push(19);
+		inputStack.push(9);
+		Deque<Integer> updatedStack = changeSmallest(inputStack);
+		
+		System.out.println("Stack After Modification:");
+		for (Integer value : updatedStack)
+			System.out.println(value);
+	}
+}
