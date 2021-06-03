@@ -1,0 +1,54 @@
+class Tester {
+	static int noOfSwaps = 0;
+	static int noOfPasses = 0;
+
+	public static void swap(int[] elements, int firstIndex, int secondIndex) {
+		// Implement your logic here
+		int temp=elements[firstIndex];
+		elements[firstIndex]=elements[secondIndex];
+		elements[secondIndex]=temp;
+	}
+
+	public static int bubbleSort(int[] elements) {
+		// Implement your logic here and change the return statement accordingly
+		int pa=1;
+		int flag=0;
+		for(int j=0;j<elements.length;j++) {
+			flag=0;
+		for (int i=0;i<elements.length-j-1;i++) {
+			if (elements[i]>elements[i+1]) {
+				flag=1;
+				swap(elements,i,i+1);	
+			}
+	}if (flag==0)
+		break;
+	else
+		pa++;
+		}
+		return pa;
+	}
+
+	public static void displayArray(int[] elements) {
+		for (int element : elements)
+			System.out.print(element + " ");
+		System.out.println();
+	}
+
+	public static void main(String[] args) {
+
+		int[] elements = { 23, 67, 45, 76, 34, 68, 90 };
+
+		System.out.println("Given array:");
+		displayArray(elements);
+
+		int noOfPasses = bubbleSort(elements);
+
+		System.out.println("==========================");
+		System.out.println("Total number of passes needed to sort the array: " + noOfPasses);
+		System.out.println("==========================");
+
+		System.out.println("Array after sorting:");
+		displayArray(elements);
+
+	}
+}
