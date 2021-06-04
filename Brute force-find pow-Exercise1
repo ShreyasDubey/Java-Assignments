@@ -1,0 +1,16 @@
+class Tester {
+	 
+	public static int calculatePower(int num, int p) {
+        //Implement your logic here and change the return statement accordingly
+        int po=1;
+        while(p>0){
+            po=po*num;
+            p--;
+        }
+		return po;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(calculatePower(0,10));
+	}
+}
