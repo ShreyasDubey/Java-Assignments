@@ -1,0 +1,189 @@
+package assesment1;
+
+public class Queue {
+   private int front,rear,maxSize;
+   private String[] arr;
+   
+   Queue(int maxSize){
+	   this.maxSize=maxSize;
+	   this.front=0;
+	   this.rear=-1;
+	   this.arr=new String[maxSize];
+   }
+   
+   public int getMaxSize() {
+	   return this.maxSize;
+   }
+   
+   public boolean isFull() {
+	   if(rear==maxSize-1)
+		   return true;
+	   return false;
+   }
+   
+   public boolean enqueue(String data) {
+	   if(isFull())
+		   return false;
+	   else {
+		   arr[++rear]=data;
+		   return true;
+	   }
+   }
+   
+   public boolean isEmpty() {
+	   if(front>rear)
+		   return true;
+	   return false;
+   }
+   
+   public String dequeue() {
+	   if(isEmpty())
+		   return null;
+	   else
+		   return arr[front++];
+   }
+   
+   public void display() {
+	   if(isEmpty())
+		   System.out.println("Queue is empty!");
+	   else {
+		   System.out.println("Displaying Queue elements:");
+		   for (int ind=front;ind<=rear;ind++)
+			   System.out.println(arr[ind]);
+	   }
+   }
+}
+
+
+package assesment1;
+
+public class Stack {
+	private int top;
+	private int maxSize;
+	private String[] arr;
+	
+	public Stack(int maxSize) {
+		this.top=-1;
+		this.maxSize=maxSize;
+		this.arr=new String[maxSize];
+	}
+	
+	public int getMaxSize() {
+		return this.maxSize;
+	}
+	
+	public boolean isFull() {
+		if(top>=maxSize-1)
+			return true;
+		return false;
+	}
+	
+	public boolean push(String data) {
+		if(isFull())
+			return false;
+		else {
+			arr[++top]=data;
+			return true;
+		}
+	}
+	
+	public boolean isEmpty() {
+		if(top<0)
+			return true;
+		return false;
+	}
+	
+	public String peek() {
+		if(isEmpty())
+			return null;
+		return arr[top];
+	}
+	
+	public String pop() {
+		if(isEmpty())
+			return null;
+		return arr[top--];
+	}
+	
+	   public void display() {
+		   if(isEmpty())
+			   System.out.println("Stack is empty!");
+		   else {
+			   System.out.println("Displaying Stack elements:");
+			   for (int ind=top;ind>=0;ind--)
+				   System.out.println(arr[ind]);
+		   }
+	   }
+
+}
+
+
+package assesment1;
+
+public class Solution {
+     public Stack rearrangeDeck(Queue inStrQueue) {
+    	 Stack outStrStack=new Stack(inStrQueue.getMaxSize());
+    	 
+    	 //implement code here
+    	 Queue qakj=new Queue(inStrQueue.getMaxSize());
+    	 Stack temp=new Stack(inStrQueue.getMaxSize());
+    	 Queue joker=new Queue(inStrQueue.getMaxSize());
+    	 Queue number=new Queue(inStrQueue.getMaxSize());
+    	 while (!inStrQueue.isEmpty()){
+    		 String a=inStrQueue.dequeue();
+    		 String regex="[0-9]{1,2}.";
+    		 if(a.equalsIgnoreCase("jocker")) {
+                 joker.enqueue(a);
+    		 }
+    		 else if(a.charAt(0)=='A'|| a.charAt(0)=='J'||a.charAt(0)=='K'||a.charAt(0)=='Q'){
+    			qakj.enqueue(a);
+    		 
+    		 }else if (a.matches(regex)) {
+    			 number.enqueue(a);
+    		 }
+    	 }
+    		 
+    		 while (!joker.isEmpty()) {
+    			 outStrStack.push(joker.dequeue());
+    		 }
+    		 
+    		 while (!number.isEmpty()) {
+    			 outStrStack.push(number.dequeue());
+    		 }
+    		 
+    		 while (!qakj.isEmpty()) {
+    			 temp.push(qakj.dequeue());
+    		 }
+    		 
+    		 while (!temp.isEmpty()) {
+    			 outStrStack.push(temp.pop());	 
+    	 }
+    	 return outStrStack; 
+}
+}
+
+
+package assesment1;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        Solution ob=new Solution();
+        Queue inStrQueue=new Queue(10);
+        inStrQueue.enqueue("2C");
+        inStrQueue.enqueue("3S");
+        inStrQueue.enqueue("AC");
+        inStrQueue.enqueue("10D");
+        inStrQueue.enqueue("Jocker");
+        inStrQueue.enqueue("8S");
+        inStrQueue.enqueue("4D");
+        inStrQueue.enqueue("QH");
+        inStrQueue.enqueue("JOCKER");
+        inStrQueue.enqueue("jocker");
+        
+        Stack outStrStack=ob.rearrangeDeck(inStrQueue);
+        outStrStack.display();
+	}
+
+}
