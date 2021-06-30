@@ -1,0 +1,212 @@
+package assessment;
+
+abstract class AdAgency {
+	private static int counter=100;
+	private static String[] adAvailabilityArr= {"Product","Service","Marketing","Brand"};
+	private Client client;
+	private String adPackage;
+	private boolean clientCollab;
+	private int totalBillAmount;
+	private String bookingId;
+	
+	public AdAgency(Client client,String adPackage,boolean clientCollab) {
+		this.client=client;
+		this.adPackage=adPackage;
+		this.clientCollab=clientCollab;
+	}
+	
+	public Client getClient() {
+		return this.client;
+	}
+	
+	public String getAdPackage() {
+		return this.adPackage;
+	}
+	
+	public boolean getClientCollab() {
+		return this.clientCollab;
+	}
+	
+	public int getTotalBillAmount() {
+		return this.totalBillAmount;
+	}
+	
+	public String getBookingId() {
+		return this.bookingId;
+	}
+	
+	public static String[] getAdAvailabilityArr() {
+		return adAvailabilityArr;
+	}
+	
+	public void setTotalBillAmount(int totalBillAmount) {
+		this.totalBillAmount = totalBillAmount;
+	}
+	
+	public void setBookingId(String bookingId) {
+		this.bookingId=bookingId;
+	}
+	
+	//To Trainee
+	public void generateBookingId() {
+		//Implement your logic here
+		String c="";
+		c=client.getAdRequirement().substring(0,1).toUpperCase()+(++counter);
+		setBookingId(c);
+	}
+	
+	// To trainee
+	public Integer identifyWaveOffPercentage() {
+		//Implement your logic here
+		Integer i=0;
+		if (client.getBudget()<=200000) {
+			i=0;
+		}else if (client.getBudget()>200000 && client.getBudget()<=500000) {
+			i=5;
+		}else if (client.getBudget()>500000) {
+			i=10;
+		}
+		
+		
+		//change the return statement accordingly
+		return i;
+	}
+	
+	abstract public void calculateTotalBill();
+   
+}
+
+
+package assessment;
+
+public class Client {
+	private String clientName;
+	private String adRequirement;
+	private int budget;
+	private String paymentType;
+	
+	public Client(String clientName,String adRequirement,int budget,String paymentType) {
+		this.clientName=clientName;
+		this.adRequirement=adRequirement;
+		this.budget=budget;
+		this.paymentType=paymentType;
+	}
+	
+	public int getBudget() {
+		return this.budget;
+	}
+	
+	public String getPaymentType() {
+		return this.paymentType;
+	}
+	
+	public String getAdRequirement() {
+		return this.adRequirement;
+	}
+	
+	public boolean validateClient() {
+		if(this.clientName.length()>=3) {
+			return true;
+		}
+		return false;
+	}
+	
+	//to trainee
+	public  Boolean validateClientAdRequirement() {
+		//Implement your logic here
+		boolean flag=false;
+		for (String i :AdAgency.getAdAvailabilityArr()) {
+			if (i.equalsIgnoreCase(adRequirement)) {
+				flag=true;
+				break;
+			}
+				
+		}
+		//change the return statement accordingly
+		return flag;
+	}	
+   
+}
+
+package assessment;
+
+public class OutdoorAdAgency extends AdAgency {
+	private static String[] outdoorAdTypeArr;
+	private static int[] outdoorAdTypeCostArr;
+	private String outdoorAdType;
+	private int displayTimeFrame;
+	private int quantity;
+	public OutdoorAdAgency(Client client,String adPackage,boolean clientCollab,String outdoorAdType,int displayTimeFrame,int quantity) {
+		super(client,adPackage,clientCollab);
+		this.outdoorAdType=outdoorAdType;
+		this.displayTimeFrame=displayTimeFrame;
+		this.quantity=quantity;
+		outdoorAdTypeArr=new String[] {"Billboard","Transit","Banner"};
+		outdoorAdTypeCostArr=new int[] {250,170,150};
+	}
+	
+	@Override
+	public void calculateTotalBill() {
+		//For trainee 
+		int costPerAdType=0;
+		int i=0;
+		Integer waveoffPercent=0;
+		int adCost=0;
+		if(getClient().validateClient() && getClient().validateClientAdRequirement()) {
+			boolean j=false;
+			for(int k=0;k<outdoorAdTypeArr.length;k++) {
+				if(outdoorAdTypeArr[k].equals(outdoorAdType)) {
+					j=true;
+					i=k;
+					break;		
+				}
+			}
+			if(j) {
+				costPerAdType=outdoorAdTypeCostArr[i];
+				generateBookingId();
+				waveoffPercent=super.identifyWaveOffPercentage();
+				adCost=costPerAdType*quantity*displayTimeFrame;
+				if(super.getAdPackage().equalsIgnoreCase("Digital")) {
+					adCost=adCost+5000;
+				}else if (super.getAdPackage().equalsIgnoreCase("Traditional")) {
+					adCost=adCost+2000;
+				}
+				
+				if(super.getClientCollab() && getClient().getPaymentType().equals("Prepaid")) {
+					adCost=adCost-(adCost*waveoffPercent/100);
+				}
+				setTotalBillAmount(adCost);
+			
+			
+			if(getTotalBillAmount() > getClient().getBudget()) {
+				super.setBookingId("NA");
+				super.setTotalBillAmount(-1);
+			}
+			
+			}else {
+				super.setBookingId("NA");
+			    super.setTotalBillAmount(-1);	
+			}
+			
+		}else {
+			super.setBookingId("NA");
+		    super.setTotalBillAmount(-1);
+		}
+				
+		}
+	}
+
+package assessment;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        Client clientOb1=new Client("GoIndia","service",500000,"Prepaid");
+        OutdoorAdAgency adOb1=new OutdoorAdAgency(clientOb1,"Digital",true,"Banner",6,500);
+        adOb1.calculateTotalBill();
+        System.out.println("Booking ID: "+adOb1.getBookingId());
+        System.out.println("Bill amount: "+adOb1.getTotalBillAmount());
+	}
+
+}
